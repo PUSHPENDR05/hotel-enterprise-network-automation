@@ -1,3 +1,10 @@
+
+## 📥 Direct Lab Download
+
+[![Download Packet Tracer Lab](https://img.shields.io/badge/Download-Cisco%20Packet%20Tracer%20Lab%20(.pkt)-blue?style=for-the-badge&logo=cisco)](https://github.com/PUSHPENDR05/hotel-enterprise-network-automation/raw/main/topology/hotel_network.pkt)
+
+> **Note:** Click the badge above to download the raw .pkt simulation file directly to your local machine.
+
 # Enterprise Hospitality Network Infrastructure & NetOps Automation Engine
 
 [![Network Standard](https://img.shields.io/badge/Security-PCI--DSS%204.0%20Compliant-green.svg)]()
