@@ -1,0 +1,34 @@
+[
+  {
+    "device_type": "cisco_ios",
+    "host": "10.10.50.1",
+    "hostname": "CORE-SW-01",
+    "role": "Core Layer 3 Switch",
+    "location": "MDF Main Server Room",
+    "port": 22
+  },
+  {
+    "device_type": "cisco_ios",
+    "host": "10.10.50.2",
+    "hostname": "IDF-FRONTDESK-SW",
+    "role": "Front Office Access Switch",
+    "location": "Reception Rack 1",
+    "port": 22
+  },
+  {
+    "device_type": "cisco_ios",
+    "host": "10.10.50.3",
+    "hostname": "IDF-POS-SW",
+    "role": "F&B Restaurant Billing Switch",
+    "location": "Main Dining Hall Rack",
+    "port": 22
+  },
+  {
+    "device_type": "cisco_ios",
+    "host": "10.10.50.4",
+    "hostname": "IDF-FLR1-SW",
+    "role": "Floor 1 Guest & Housekeeping AP Switch",
+    "location": "1st Floor Electrical Shaft",
+    "port": 22
+  }
+]

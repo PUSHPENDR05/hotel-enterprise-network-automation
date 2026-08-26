@@ -1,0 +1,97 @@
+﻿{% extends 'base.html' %}
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <span class="text-secondary small fw-semibold">MANAGED SWITCHES</span>
+            <h2 class="text-light mt-2 mb-0">{{ stats.total_switches }} Online</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <span class="text-secondary small fw-semibold">SEGMENTED VLANS</span>
+            <h2 class="text-primary mt-2 mb-0">{{ stats.active_vlans }} Active</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <span class="text-secondary small fw-semibold">SECURITY STANDARD</span>
+            <h2 class="text-success mt-2 mb-0">PCI-DSS 4.0</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 shadow-sm">
+            <span class="text-secondary small fw-semibold">ZERO-TRUST ENGINE</span>
+            <h2 class="text-info mt-2 mb-0">Operational</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card p-4">
+            <h5 class="card-title text-light mb-3"><i class="bi bi-hdd-network me-2"></i>Live Infrastructure Inventory</h5>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                        <tr class="text-secondary">
+                            <th>Hostname</th>
+                            <th>IP Address</th>
+                            <th>Role / Department</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dev in devices %}
+                        <tr>
+                            <td class="fw-bold text-light">{{ dev.hostname }}</td>
+                            <td><code>{{ dev.host }}</code></td>
+                            <td>{{ dev.role }}</td>
+                            <td class="text-secondary">{{ dev.location }}</td>
+                            <td><span class="badge bg-success badge-custom">Online</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card p-4">
+            <h5 class="card-title text-light mb-3"><i class="bi bi-shield-slash-fill text-danger me-2"></i>Emergency ACL Action</h5>
+            <p class="text-secondary small">Instantly isolate a rogue IP attempting cross-VLAN intrusion via Core Switch ACL enforcement.</p>
+            <form id="lockdownForm">
+                <div class="mb-3">
+                    <label class="form-label text-secondary small">Target IP Address</label>
+                    <input type="text" id="targetIp" class="form-control bg-dark text-light border-secondary" placeholder="e.g. 10.10.10.45" required>
+                </div>
+                <button type="submit" class="btn btn-danger w-100 fw-bold"><i class="bi bi-slash-circle me-1"></i> Block Target on Switch</button>
+            </form>
+            <div id="actionResult" class="mt-3 small" style="display:none;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('lockdownForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const ip = document.getElementById('targetIp').value;
+    const resDiv = document.getElementById('actionResult');
+    resDiv.style.display = 'block';
+    resDiv.innerHTML = '<span class="text-warning">Enforcing Layer-3 policy...</span>';
+    
+    const res = await fetch('/api/lockdown-ip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ip })
+    });
+    const data = await res.json();
+    if(data.success) {
+        resDiv.innerHTML = `<span class="text-success fw-bold">${data.message}</span>`;
+    } else {
+        resDiv.innerHTML = `<span class="text-danger fw-bold">${data.message}</span>`;
+    }
+});
+</script>
+{% endblock %}
